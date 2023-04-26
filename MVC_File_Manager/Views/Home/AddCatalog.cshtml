@@ -1,0 +1,17 @@
+﻿@using MVC_File_Manager.Models;
+@model Catalog
+<head>
+    <title>Add Catalog</title>
+</head>
+<h2>Add New Catalog</h2>
+
+@using (Html.BeginForm("AddCatalog", "Home"))
+{
+    @Html.LabelFor(model => model.Name)
+    @Html.TextBoxFor(model => model.Name)
+
+    @Html.LabelFor(model => model.ParentId, "Parent Catalog")
+    @Html.TextBoxFor(model => model.ParentId)
+
+    <button type="submit">Create Catalog</button>
+}

@@ -1,0 +1,35 @@
+﻿@using MVC_File_Manager.Models;
+@model List<Catalog>
+@{
+    Catalog catalog = Model.FirstOrDefault(x => x.Id == 1);
+}
+
+<head>
+    <title>@catalog.Name</title>
+</head>
+
+@if (catalog != null)
+{
+    <h2>@catalog.Name</h2>
+    @if (catalog.ChildCatalogs != null)
+    {
+        <ul>
+            @foreach (var childCatalog in catalog.ChildCatalogs)
+            {
+                <li>@Html.ActionLink(childCatalog.Name, "CertainCatalog", "Home", childCatalog)</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <h3>This catalog is empty</h3>
+    }
+}
+else
+{
+    <h3>There is no catalogs</h3>
+}
+
+
+
+
