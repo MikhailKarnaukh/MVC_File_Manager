@@ -5,11 +5,12 @@ namespace MVC_File_Manager
 {
     public class FileManagerDbContext : DbContext
     {
-        public FileManagerDbContext(DbContextOptions<FileManagerDbContext> options) : base(options) 
+        public FileManagerDbContext(DbContextOptions<FileManagerDbContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
         public DbSet<Catalog> Catalogs { get; set; }
+        public DbSet<LocalCatalog> LocalCatalogs { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Catalog>()
@@ -33,6 +34,11 @@ namespace MVC_File_Manager
             modelBuilder.Entity<Catalog>().HasData(secondarySources);
             modelBuilder.Entity<Catalog>().HasData(process);
             modelBuilder.Entity<Catalog>().HasData(finalProduct);
+
+            modelBuilder.Entity<LocalCatalog>()
+                .HasOne(c => c.ParentCatalog)
+                .WithMany(c => c.ChildCatalogs)
+                .HasForeignKey(c => c.ParentId);
         }
     }
 }

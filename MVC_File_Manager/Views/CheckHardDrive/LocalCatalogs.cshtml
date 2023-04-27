@@ -1,0 +1,31 @@
+﻿@using MVC_File_Manager.Models;
+@model List<LocalCatalog>
+@{
+    LocalCatalog catalog = Model.FirstOrDefault(x => x.Id == 1);
+}
+
+<head>
+    <title>Local Catalogs</title>
+</head>
+
+@if (catalog != null)
+{
+    <h2>@catalog.Name</h2>
+    @if (catalog.ChildCatalogs != null)
+    {
+        <ul>
+            @foreach (var childCatalog in catalog.ChildCatalogs)
+            {
+                <li>@Html.ActionLink(childCatalog.Name, "CertainLocalCatalog", "CheckHardDrive", childCatalog)</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <h3>This catalog is empty</h3>
+    }
+}
+else
+{
+    <h3>There is no catalogs</h3>
+}
