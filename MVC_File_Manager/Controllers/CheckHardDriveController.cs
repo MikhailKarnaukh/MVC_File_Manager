@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MVC_File_Manager.Models;
 
 namespace MVC_File_Manager.Controllers
@@ -40,7 +39,6 @@ namespace MVC_File_Manager.Controllers
             };
             _FileManagerDbContext.LocalCatalogs.Add(catalog);
             _FileManagerDbContext.SaveChanges();
-
             foreach (string subDirectory in Directory.GetDirectories(path))
             {
                 ScanDrive(subDirectory, catalog);

@@ -11,6 +11,7 @@ namespace MVC_File_Manager
         }
         public DbSet<Catalog> Catalogs { get; set; }
         public DbSet<LocalCatalog> LocalCatalogs { get; set; }
+        public DbSet<ImportCatalog> ImportCatalogs { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Catalog>()
@@ -36,6 +37,11 @@ namespace MVC_File_Manager
             modelBuilder.Entity<Catalog>().HasData(finalProduct);
 
             modelBuilder.Entity<LocalCatalog>()
+                .HasOne(c => c.ParentCatalog)
+                .WithMany(c => c.ChildCatalogs)
+                .HasForeignKey(c => c.ParentId);
+
+            modelBuilder.Entity<ImportCatalog>()
                 .HasOne(c => c.ParentCatalog)
                 .WithMany(c => c.ChildCatalogs)
                 .HasForeignKey(c => c.ParentId);

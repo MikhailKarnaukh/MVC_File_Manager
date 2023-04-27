@@ -1,0 +1,23 @@
+﻿@using MVC_File_Manager.Models;
+@model List<ImportCatalog>
+@{
+    List<ImportCatalog> catalog = Model.Where(x => x.ParentId == null).ToList();
+}
+
+<head>
+    <title>Import Catalogs</title>
+</head>
+
+@if (catalog != null)
+{
+        <ul>
+            @foreach (var Catalog in catalog)
+            {
+                <li>@Html.ActionLink(Catalog.Name, "CertainImportCatalog", "Import", Catalog)</li>
+            }
+        </ul>
+}
+else
+{
+    <h3>There is no catalogs</h3>
+}

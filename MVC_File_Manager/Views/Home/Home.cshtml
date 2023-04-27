@@ -15,3 +15,11 @@
 {
     <button type="submit" class="button">Check Local Catalogs</button>
 }
+@using (Html.BeginForm("Import", "Import"))
+{
+    <button type="submit" class="button">Import Catalogs</button>
+}
+@using (Html.BeginForm("Export", "Import"))
+{
+    <button type="submit" class="button">Export Catalogs</button>
+}
