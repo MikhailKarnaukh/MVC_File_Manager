@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVC_File_Manager.Models;
 
 namespace MVC_File_Manager.Controllers
@@ -20,11 +21,15 @@ namespace MVC_File_Manager.Controllers
             catalog.ChildCatalogs = _FileManagerDbContext.LocalCatalogs.Where(x => x.ParentId == catalog.Id).ToList();
             return View(catalog);
         }
-        public IActionResult CheckHDD()
+        public IActionResult SelectingRoot()
+        {
+            return View();
+        }
+        public IActionResult CheckHDD(string inputPath)
         {
             var catalogs = _FileManagerDbContext.LocalCatalogs.ToList();
-            var path = @"D:\1Check\";
-            if(catalogs.Count == 0)
+            var path = inputPath.Replace(@"\", @"\"); ;
+            if (catalogs.Count == 0)
             {
                 ScanDrive(path, null);
             }

@@ -1,0 +1,13 @@
+﻿<head>
+    <title>Selecting root</title>
+</head>
+<h2>Input path to check </h2>
+
+@using (Html.BeginForm("CheckHDD", "CheckHardDrive"))
+{
+    <h3>Input example:D:\Check\</h3>
+    <label for="textInput">Input path:</label>
+    @Html.TextBox("inputPath")
+
+    <button type="submit">Start scanning</button>
+}

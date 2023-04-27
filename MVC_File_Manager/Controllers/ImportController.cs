@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVC_File_Manager.Models;
 using System.Text;
 
@@ -56,15 +57,15 @@ namespace MVC_File_Manager.Controllers
         }
         public IActionResult Export()
         {
-            var path = @"D:\2Check\Export.txt";
             var catalogs = _FileManagerDbContext.ImportCatalogs.ToList();
             StringBuilder sb = new StringBuilder();
             foreach (var catalog in catalogs)
             {
                 sb.AppendLine($"{catalog.Id},{catalog.Name},{catalog.ParentId}");
             }
-            System.IO.File.AppendAllText(path, sb.ToString());
-            return View();
+            var bytes = Encoding.UTF8.GetBytes(sb.ToString());
+            var stream = new MemoryStream(bytes);
+            return File(stream, "text/plain", "Export.txt");
         }
     }
 }
