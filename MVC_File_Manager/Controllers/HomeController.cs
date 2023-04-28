@@ -15,22 +15,22 @@ namespace MVC_File_Manager.Controllers
         {
             return View();
         }
-        public IActionResult TaskCatalogs()
+        public async Task<IActionResult> TaskCatalogsAsync()
         {
-            var catalogs = _FileManagerDbContext.Catalogs.ToList();
+            var catalogs = await _FileManagerDbContext.Catalogs.ToListAsync();
             return View(catalogs);
         }
-        public IActionResult CertainCatalog(Catalog catalog)
+        public async Task<IActionResult> CertainCatalogAsync(Catalog catalog)
         {
-            catalog.ChildCatalogs = _FileManagerDbContext.Catalogs.Where(x => x.ParentId == catalog.Id).ToList();
+            catalog.ChildCatalogs = await _FileManagerDbContext.Catalogs.Where(x => x.ParentId == catalog.Id).ToListAsync();
             return View(catalog);
         }
-        public IActionResult AddCatalog(Catalog catalog)
+        public async Task<IActionResult> AddCatalogAsync(Catalog catalog)
         {
             if (ModelState.IsValid)
             {
-                _FileManagerDbContext.Catalogs.Add(catalog);
-                _FileManagerDbContext.SaveChanges();
+                await _FileManagerDbContext.Catalogs.AddAsync(catalog);
+                await _FileManagerDbContext.SaveChangesAsync();
                 return RedirectToAction("Home");
             }
             return View(catalog);

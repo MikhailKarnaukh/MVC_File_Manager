@@ -12,22 +12,22 @@ namespace MVC_File_Manager.Controllers
         {
             _FileManagerDbContext = dbContext;
         }
-        public IActionResult ImportCatalogs()
+        public async Task<IActionResult> ImportCatalogsAsync()
         {
-            var catalogs = _FileManagerDbContext.ImportCatalogs.ToList();
+            var catalogs = await _FileManagerDbContext.ImportCatalogs.ToListAsync();
             return View(catalogs);
         }
-        public IActionResult CertainImportCatalog(ImportCatalog catalog)
+        public async Task<IActionResult> CertainImportCatalogAsync(ImportCatalog catalog)
         {
-            catalog.ChildCatalogs = _FileManagerDbContext.ImportCatalogs.Where(x => x.ParentId == catalog.Id).ToList();
+            catalog.ChildCatalogs = await _FileManagerDbContext.ImportCatalogs.Where(x => x.ParentId == catalog.Id).ToListAsync();
             return View(catalog);
         }
-        public IActionResult Import()
+        public async Task<IActionResult> ImportAsync()
         {
             var path = @"D:\2Check\Import.txt";
-            var rows = System.IO.File.ReadAllLines(path);
+            var rows = await System.IO.File.ReadAllLinesAsync(path);
             var importCatalogs = new List<ImportCatalog>();
-            var catalogs = _FileManagerDbContext.ImportCatalogs.ToList();
+            var catalogs = await _FileManagerDbContext.ImportCatalogs.ToListAsync();
             if (catalogs.Count == 0)
             {
                 foreach (var row in rows)
@@ -49,15 +49,15 @@ namespace MVC_File_Manager.Controllers
                 }
                 foreach (var catalog in importCatalogs)
                 {
-                    _FileManagerDbContext.ImportCatalogs.Add(catalog);
+                    await _FileManagerDbContext.ImportCatalogs.AddAsync(catalog);
                 }
-                _FileManagerDbContext.SaveChanges();
+                await _FileManagerDbContext.SaveChangesAsync();
             }
             return RedirectToAction("ImportCatalogs");
         }
-        public IActionResult Export()
+        public async Task<IActionResult> ExportAsync()
         {
-            var catalogs = _FileManagerDbContext.ImportCatalogs.ToList();
+            var catalogs = await _FileManagerDbContext.ImportCatalogs.ToListAsync();
             StringBuilder sb = new StringBuilder();
             foreach (var catalog in catalogs)
             {

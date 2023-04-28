@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<FileManagerDbContext>(x => x.UseSqlServer(connection));
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<FileManagerDbContext>(x => x.UseSqlServer(connection));
 
 var app = builder.Build();
 
